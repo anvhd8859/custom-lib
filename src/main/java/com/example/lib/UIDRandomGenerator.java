@@ -4,21 +4,16 @@ import java.util.Random;
 
 public class UIDRandomGenerator {
     private static final char[] chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".toCharArray();
+    private static final SequenceGenerator generator = new SequenceGenerator();
     private static final Random random = new Random();
 
     public static String generateUID() {
-        long time = System.currentTimeMillis();
-        time += (random.nextInt(300000) * 2 + 500000);
+        long id = generator.nextLong();
         StringBuilder sb = new StringBuilder();
-        while (time != 0L) {
-            int i = (int) (time % chars.length);
+        while (id != 0L) {
+            int i = (int) (id % chars.length);
             sb.append(chars[i]);
-            time /= chars.length;
-        }
-        if (sb.length() < 12) {
-            while (sb.length() < 12) {
-                sb.append(chars[random.nextInt(chars.length)]);
-            }
+            id /= chars.length;
         }
         return sb.toString();
     }
